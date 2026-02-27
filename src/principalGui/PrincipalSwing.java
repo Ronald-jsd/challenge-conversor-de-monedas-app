@@ -244,17 +244,11 @@ public class PrincipalSwing implements ActionListener {
 		}
 	}
 
-	//Metodo para consultas el valor de conversión de una moneda base a otra
 	public static double obtenerValor(String baseMoneda, String destino) {
-		// Consultar las tasas de conversión desde la API
 		ConsultaMoneda consulta = new ConsultaMoneda();
 		Moneda moneda = consulta.buscaMoneda(baseMoneda);
-		//double resultado2 = resultado;
-		
-		// verificamos conversion
+
 		if (moneda.conversion_rates() != null && !moneda.conversion_rates().isEmpty()) {
-			// Obtener el valor de conversión hacia la moneda destino
-			// Ejemplo: USD a COP o COP a USD
 			double tasaConversion = moneda.conversion_rates().get(destino.toUpperCase());
 			return tasaConversion;
 		} else {
