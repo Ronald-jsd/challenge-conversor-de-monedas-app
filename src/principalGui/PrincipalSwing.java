@@ -26,6 +26,9 @@ import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import javax.swing.JSeparator;
 import javax.swing.border.EtchedBorder;
@@ -123,7 +126,7 @@ public class PrincipalSwing implements ActionListener {
 
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\Ronald\\Documents\\CURSOS DE PROGRAMACIÓN\\ALURA - ORACLE\\CURSO ONE ORACLE BACKEND\\Conversor-De-Monedas-Challenge-Alura-Oracle\\Challenge-Conversor-de-Monedas-app\\img\\3.png"));
+		lblNewLabel_2.setIcon(new ImageIcon(PrincipalSwing.class.getResource("/img/3.png")));
 		lblNewLabel_2.setBounds(0, 81, 401, 343);
 		panel.add(lblNewLabel_2);
 		
@@ -148,12 +151,12 @@ public class PrincipalSwing implements ActionListener {
 
 		btnResumen = new JButton("Resúmen");
 		btnResumen.addActionListener(this);
-		btnResumen.setIcon(new ImageIcon("C:\\Users\\Ronald\\Documents\\CURSOS DE PROGRAMACIÓN\\ALURA - ORACLE\\CURSO ONE ORACLE BACKEND\\Conversor-De-Monedas-Challenge-Alura-Oracle\\Challenge-Conversor-de-Monedas-app\\img\\papel.png"));
+		btnResumen.setIcon(new ImageIcon(PrincipalSwing.class.getResource("/img/papel.png")));
 		btnResumen.setBounds(204, 435, 129, 35);
 		frame.getContentPane().add(btnResumen);
 
 		btnSalir = new JButton("Salir");
-		btnSalir.setIcon(new ImageIcon("C:\\Users\\Ronald\\Documents\\CURSOS DE PROGRAMACIÓN\\ALURA - ORACLE\\CURSO ONE ORACLE BACKEND\\Conversor-De-Monedas-Challenge-Alura-Oracle\\Challenge-Conversor-de-Monedas-app\\img\\btnCerrar.png"));
+		btnSalir.setIcon(new ImageIcon(PrincipalSwing.class.getResource("/img/btnCerrar.png")));
 		btnSalir.addActionListener(this);
 		btnSalir.setBounds(73, 435, 93, 35);
 		frame.getContentPane().add(btnSalir);
@@ -261,22 +264,21 @@ public class PrincipalSwing implements ActionListener {
 	}
 
 
-	protected static void btnResumenActionPerformed(ActionEvent e) {
-		 String rutaJson = "C:\\Users\\Ronald\\Documents\\CURSOS DE PROGRAMACIÓN\\ALURA - ORACLE\\CURSO ONE ORACLE BACKEND\\Conversor-De-Monedas-Challenge-Alura-Oracle\\Challenge-Conversor-de-Monedas-app/datos.json";
+    protected static void btnResumenActionPerformed(ActionEvent e) {
+        String rutaProyecto = System.getProperty("user.dir");
+        File archivoJson = new File(rutaProyecto + "/data/datos.json");
 
-		 Desktop desktop = Desktop.getDesktop();
-         File archivoJson = new File(rutaJson);
-         
-         // Verificar si el archivo existe
-         if (archivoJson.exists()) {
-             // Abrir el archivo con la app prederteminada
-             try {
-				desktop.open(archivoJson);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-         }
-	}
+        if (!archivoJson.exists()) {
+            System.out.println("El archivo datos.json no existe aún.");
+            return;
+        }
+
+        try {
+            Desktop.getDesktop().open(archivoJson);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 	
 	protected void btnSalirActionPerformed(ActionEvent e) {
 		frame.dispose();

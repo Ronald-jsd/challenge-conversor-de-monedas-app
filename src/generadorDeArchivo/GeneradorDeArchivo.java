@@ -1,5 +1,6 @@
 package generadorDeArchivo;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -10,17 +11,25 @@ import modelRecord.DatosConversion;
 public class GeneradorDeArchivo {
 
     public static void guardarJson(String opcion, double resultado) {
-        // Crear el objeto DatosConversion
-       DatosConversion datos = new DatosConversion(opcion, resultado );
-        
-        // Convertir el objeto a formato JSON
+        DatosConversion datos = new DatosConversion(opcion, resultado );
         Gson gson = new Gson();
         String json = gson.toJson(datos);
 
-        // Guardar el JSON en un archivo
-        try (FileWriter escritura = new FileWriter("datos.json", true)) {
-            escritura.write(json + System.lineSeparator()); // Agregar nueva línea para cada registro
-            System.out.println("Datos guardados exitosamente en datos.json");
+        // Carpeta raíz del proyecto
+        String rutaProyecto = System.getProperty("user.dir");
+        File carpetaData = new File(rutaProyecto + "/data");
+
+        // Crear carpeta si no existe
+        if (!carpetaData.exists()) {
+            carpetaData.mkdirs();
+        }
+
+        // Archivo JSON dentro de data
+        String rutaArchivo = rutaProyecto + "/data/datos.json";
+
+        try (FileWriter escritura = new FileWriter(rutaArchivo, true)) {
+            escritura.write(json + System.lineSeparator());
+            System.out.println("Datos guardados exitosamente en " + rutaArchivo);
         } catch (IOException e) {
             System.out.println("Error al guardar los datos: " + e.getMessage());
         }
